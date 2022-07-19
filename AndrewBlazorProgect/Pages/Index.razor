@@ -1,0 +1,31 @@
+﻿@page "/"
+<h3>Index</h3>
+
+@code {
+    string text = "Первый участник";
+    string otvet = "Второй участник";
+    List<string> list = new List(string);
+    void Ok(){ list.Add(text);                 }
+    text[] group = new text[];
+    otvet[] group = new otvet[];
+    
+
+}
+@foreach(text,otvet c in group);
+<input @bind="text">
+<div> </div>
+<input @bind="otvet">
+<div> </div>
+@text
+<div>
+    <div>
+    </div>
+    <div style="display:inline-block;float:right;width:50%;">
+        @otvet
+    </div>
+
+</div>
+<button @onclick="Ok"> Ok </button>
+
+
+
