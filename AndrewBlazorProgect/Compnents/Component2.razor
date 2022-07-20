@@ -1,0 +1,16 @@
+﻿
+<button @onclick ="addCount" >Нажми</button>
+ 
+@code {
+    [Parameter]
+    public EventCallback number { get; set; }
+
+    int c = 0;
+
+    void addCount()
+        {
+        c++;
+        number.InvokeAsync((int)c);
+        }
+
+}
