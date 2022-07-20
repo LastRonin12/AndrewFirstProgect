@@ -1,5 +1,23 @@
 ﻿@page "/"
 
+<input @bind=" text" />
+<button class="focus" @onclick="Ok">Отправить</button>
+@foreach (string s in list)
+            {
+                <div> @s  </div>
+            }
+
+    @code
+{
+        static string text = "Введите сообщение";
+        static List<string> list = new List<string>();
+        void Ok()
+        {
+            list.Add(text);
+        }
+    }
+
+
 
 
 
