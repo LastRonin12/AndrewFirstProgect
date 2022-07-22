@@ -1,0 +1,38 @@
+﻿
+<button @onclick="taunt" style="background-color:transparent; border:hidden; float:right; position:absolute; filter:opacity(@inv) "> <img src="/Павук.png" /></button>
+
+@if (c == true)
+{
+     @p 
+}
+
+         
+@code {
+
+    bool c = false;
+    int inv = 100;
+    string p = "Хаха,непоймал!";
+    void taunt()
+    {
+        c = true;
+        inv = 0;
+
+    }
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        invis();
+    }
+    void AsyncInvis()
+    {
+        System.Threading.Thread.Sleep(300);
+        inv = 100;
+        c = false;
+        Console.WriteLine("gwdhwaegdywegfyrgwae");
+    }
+    async void invis()
+    {
+        await Task.Run(() =>AsyncInvis());
+    }
+
+}
