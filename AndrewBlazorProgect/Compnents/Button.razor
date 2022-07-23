@@ -1,38 +1,43 @@
 ﻿
-<button @onclick="taunt" style="background-color:transparent; border:hidden; float:right; position:absolute; filter:opacity(@inv) "> <img src="/Павук.png" /></button>
+<button @onclick="@(async ()=> await invis())" style="background-color:transparent; border:hidden; float:right;  visibility:@(visib); "> <img src="/Павук.png" width="50" height="120" style="display: inline-block;float: right" /></button>
 
 @if (c == true)
 {
-     @p 
+   
+ <div style=" float: right">@p</div>
+
+
 }
 
-         
+
 @code {
 
     bool c = false;
     int inv = 100;
-    string p = "Хаха,непоймал!";
+    string visib = "visible";
+    string p = "Хахаха,не поймал!";
     void taunt()
     {
         c = true;
         inv = 0;
+        visib = "hidden";
+        p = "Хахаха,не поймал!";
+        
 
     }
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        invis();
-    }
+
     void AsyncInvis()
     {
-        System.Threading.Thread.Sleep(300);
+        System.Threading.Thread.Sleep(5000);
         inv = 100;
+        visib = "visible";
         c = false;
-        Console.WriteLine("gwdhwaegdywegfyrgwae");
+        p = "";
     }
-    async void invis()
+    async Task invis()
     {
-        await Task.Run(() =>AsyncInvis());
+        taunt();
+        await Task.Run(() => AsyncInvis());
     }
 
 }
