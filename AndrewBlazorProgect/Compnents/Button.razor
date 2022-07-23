@@ -1,6 +1,6 @@
 ﻿
 <button @onclick="@(async ()=> await invis())" style="background-color:transparent; border:hidden; float:right;  visibility:@(visib); "> <img src="/Павук.png" width="50" height="120" style="display: inline-block;float: right" /></button>
-@if (count == 100)
+@if (count == 10)
 {
     <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> <div style=" float: right">  @r </div> </a>
     c = false;
@@ -36,7 +36,7 @@
 
     void AsyncInvis()
     {
-        System.Threading.Thread.Sleep(10000);
+        System.Threading.Thread.Sleep(3000);
         inv = 100;
         visib = "visible";
         c = false;
