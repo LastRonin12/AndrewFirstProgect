@@ -1,15 +1,67 @@
-﻿@*<h3>Nadoedalka</h3>
-<button class="btn btn-primary" @onclick="SendMessage">Отправить</button>
+﻿<h2>Надоедалка</h2>
+<div style="border: 1px solid; width:550px;  border-radius:10px; ">
+    <input @bind="msg" style="width:550px" />
+    <button class="btn btn-primary" @onclick="SendMessage">Отправить</button>
 
-
-@code {
-    public void SendMessage()
+    @for (int i = 0; i < msges.Count(); i++)
     {
-        
-        if (msg == "")
+        if (i % 2 == 0)
         {
-            return;
+            <div style="color:green;"> @msges[i] </div>
         }
-
+        else
+        {
+            <div style="color:blue"> @msges[i] </div>
+        }
     }
-}*@
+</div>
+    @code {
+        void otvets()
+        {
+            Random rnd = new Random();
+            frq.Add("Когда началось время?");
+            frq.Add("Мы изобрели математику или обнаружили её?");
+            frq.Add("Куда исчезает мысль о которой забывает наш мозг?");
+            frq.Add("Кто решает, что такое хорошо, а что такое плохо?");
+            frq.Add("Если мы учимся и развиваемся с помощью ошибок, почему мы боимся их совершать?");
+            frq.Add("Что появилось первым – курица или яйцо?");
+            fra.Add("Какая прекрасная погода...");
+            fra.Add("Какой прекрасный день...");
+            fra.Add("Я сегодня танцевала балет и сломала ногу");
+            fra.Add("Штирлиц долго смотрел в одну точку. Потом перевел взгляд и посмотрел на другую. Двоеточие! - догадался Штирлиц.");
+            fra.Add("Инфаркты чаще случаются в понедельник.");
+            fra.Add("Виноград взрывается если засунуть в микроволновку");
+
+            int m = msg.Count();
+            char t = msg[m - 1];
+            if (t == '?')
+            {
+                int num = rnd.Next(fra.Count());
+                string s = fra[num];
+                msges.Add(s);
+            }
+            else
+            {
+                int num2 = rnd.Next(frq.Count());
+                string s2 = frq[num2];
+                msges.Add(s2);
+            }
+        }
+        int i = 0;
+        string s = "";
+        string msg = "";
+        public List<string> msges = new List<string>();
+        public List<string> fra = new List<string>();
+        public List<string> frq = new List<string>();
+        public void SendMessage()
+        {
+
+            if (msg == "")
+            {
+                return;
+            }
+            msges.Add(msg);
+            otvets();
+
+        }
+    }
