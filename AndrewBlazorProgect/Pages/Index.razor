@@ -1,11 +1,22 @@
 ﻿@page "/"
 
-<AndrewBlazorProgect.Compnents.Nadoedalka></AndrewBlazorProgect.Compnents.Nadoedalka>
 
-@code
+<div><AndrewBlazorProgect.Compnents.Regestration handler="(u)=>setuser((Classes.Person) u)"></AndrewBlazorProgect.Compnents.Regestration></div>
+@if (user != "")
 {
-    
+    <div class="chat">        </div>
+
 }
+@code {
+    
+    public string user = "";
+
+    void setuser(Classes.Person u)
+    {
+        user = u.nickname;
+    }
+}
+
 
 
 

@@ -31,7 +31,6 @@
             fra.Add("Штирлиц долго смотрел в одну точку. Потом перевел взгляд и посмотрел на другую. Двоеточие! - догадался Штирлиц.");
             fra.Add("Инфаркты чаще случаются в понедельник.");
             fra.Add("Виноград взрывается если засунуть в микроволновку");
-
             int m = msg.Count();
             char t = msg[m - 1];
             if (t == '?')
@@ -55,7 +54,7 @@
         public List<string> frq = new List<string>();
         public void SendMessage()
         {
-
+            ydalenie();
             if (msg == "")
             {
                 return;
@@ -63,5 +62,13 @@
             msges.Add(msg);
             otvets();
 
+        }
+        void ydalenie()
+        {
+            if (msges.Count > 10)
+            {
+                msges.RemoveAt(0);
+                msges.RemoveAt(0);
+            }
         }
     }

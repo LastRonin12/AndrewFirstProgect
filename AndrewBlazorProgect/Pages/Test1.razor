@@ -1,21 +1,72 @@
 ﻿@page "/test1"
 
-<h3></h3>
+<table border="2">
+    <tr>
+        <td width="100" height="100" style="text-align:center; font-size: 20px; "@onclick="() => nagatie(1)">
+          @s1  
+        </td>
+        <td width="100" height="100" style="text-align:center; font-size: 20px; "@onclick="() => nagatie(2)">
+        @s2
 
-<AndrewBlazorProgect.Compnents.Component2 number="(c)=>setClicks((int)c)"></AndrewBlazorProgect.Compnents.Component2>
+        </td>
+        <td width="100" height="100" style="text-align:center; font-size: 20px; "@onclick="() => nagatie(3)">
+            @s3
+        </td>
+    </tr>
+    
 
+</table>
 
-<div>@clicks</div>
-@code {
-    public int clicks=0;
+@code
+{
 
-    void setClicks(int c)
+    int b = 0;
+    string s1 = "";
+    string s2 = "";
+    string s3 = "";
+    string s4 = "";
+    string s5 = "";
+    string s6 = "";
+    string s7 = "";
+    string s8 = "";
+    string s9 = "";
+    void nagatie(int k)
     {
-        clicks = c;
+
+        if (b == 0)
+        {
+
+            if (k == 1)
+            {
+                s1 = "X";
+            }
+            if (k == 2)
+            {
+                s2 = "X";
+            }
+            if (k == 3)
+            {
+                s3 = "X";
+            }
+            b++;
+        }
+        else if (b == 1)
+        {
+
+            if (k == 1)
+            {
+                s1 = "0";
+            }
+            if (k == 2)
+            {
+                s2 = "0";
+            }
+            if (k == 3)
+            {
+                s3 = "0";
+            }
+            b--;
+        }
     }
 
 }
-
-
-
-

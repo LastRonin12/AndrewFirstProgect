@@ -1,0 +1,199 @@
+﻿@if (!auth)
+{
+    <div style="border: 1px solid; width: 250px; float: right; padding: 20px; margin-right: 70px; margin-top: 40px; box-shadow: 7px 7px 5px rgba(0,0,0,0.6); background-color:white">
+        <input @bind="nickname" placeholder="Никнейм" />
+        <div></div>
+        <input @bind="password" placeholder="Пароль" />
+        <div></div>
+        @if (reg)
+        {
+            <input @bind="passwordR" placeholder="Повторите пароль" />
+            <div></div>
+            <button class="btn btn-primary" @onclick="addPerson">@(onBtn)</button>
+            <div style="color:cadetblue;" @onclick="setTrue">Войти</div>
+        }
+        @if (!reg)
+        {
+            <button class="btn btn-primary" @onclick="enter">@(onBtnE)</button>
+            <div style="color:cadetblue;" @onclick="setTrue">Зарегистрироваться</div>
+        }
+    </div>
+}
+
+
+
+@code {
+    [Parameter]
+    public EventCallback handler { get; set; }
+
+    bool reg = false;
+    bool auth = false;
+
+    string nickname = "";
+    string password = "";
+    string passwordR = "";
+
+    string onBtn = "Зарегистрироваться";
+    string onBtnE = "Войти";
+    public static List<AndrewBlazorProgect.Classes.Person> group = new List<Classes.Person>();
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        reloadUsers();
+    }
+
+    private void addPerson()
+    {
+
+        if (nickname == "" || password == "")
+        {
+            onBtn = "Заполните все поля";
+            return;
+        }
+        if (password != passwordR)
+        {
+            onBtn = "Пароли не совпадают";
+            return;
+        }
+
+        foreach (Classes.Person p in group)
+        {
+            if (p.nickname.ToLower() == nickname.ToLower())
+            {
+                onBtn = "Никнейм уже занят";
+                return;
+            }
+        }
+        auth = true;
+        Classes.Person person = new Classes.Person() { nickname = nickname, password = password };
+        group.Add(person);
+        saveUser();
+        handler.InvokeAsync(person);
+
+    }
+    private void enter()
+    {
+        if (nickname == "" || password == "")
+        {
+            onBtnE = "Заполните все поля";
+            return;
+        }
+        foreach (Classes.Person p in group)
+        {
+            if (p.nickname.ToLower() == nickname.ToLower())
+            {
+                reg = false;
+                if (p.password == password)
+                {
+                    auth = true;
+                    handler.InvokeAsync(p);
+                }
+                else
+                {
+                    onBtnE = "Неправильный пароль";
+                }
+                return;
+            }
+        }
+        if (checkUser(nickname, password) == "yes")
+        {
+            auth = true;
+            handler.InvokeAsync(new Classes.Person() { nickname = nickname, password = password });
+            return;
+        }
+        else if (checkUser(nickname, password) == "wrong")
+        {
+            onBtnE = "Неправильный пароль";
+            return;
+        }
+        else
+        {
+            onBtnE = "Никнейм не найден";
+        }
+
+    }
+    private void setTrue()
+    {
+        if (reg)
+        {
+            reg = false;
+        }
+        else if (!reg)
+        {
+            reg = true;
+        }
+    }
+    private void saveUser()
+    {
+        System.IO.FileStream file = new System.IO.FileStream("Data/users.bin", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
+        System.IO.BinaryWriter writer = new System.IO.BinaryWriter(file);
+        writer.Write((long)group.Count());
+        foreach (Classes.Person p in group)
+        {
+            writer.Write(p.nickname);
+            writer.Write(p.password);
+        }
+        writer.Flush();
+        file.Close();
+    }
+    private string checkUser(string nickname, string password)
+    {
+        try
+        {
+            System.IO.FileStream file = new System.IO.FileStream("Data/users.bin", System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            System.IO.BinaryReader reader = new System.IO.BinaryReader(file);
+            long count = reader.ReadInt64();
+            for (long i = 0; i < count; i++)
+            {
+                string nickFromFile = reader.ReadString().ToLower();
+                string passwordFromFile = reader.ReadString();
+                if (nickname.ToLower() == nickFromFile)
+                {
+                    if (password == passwordFromFile)
+                    {
+                        file.Close();
+                        return "yes";
+                    }
+                    else
+                    {
+                        file.Close();
+                        return "wrong";
+                    }
+                }
+            }
+            file.Close();
+            return "none";
+        }
+        catch (System.IO.FileNotFoundException)
+        {
+
+            return "none";
+        }
+
+    }
+    private void reloadUsers()
+    {
+        try
+        {
+           System.IO.FileStream file = new System.IO.FileStream("Data/users.bin", System.IO.FileMode.Open, System.IO.FileAccess.Read);
+           System.IO.BinaryReader reader = new System.IO.BinaryReader(file);
+
+            long count = reader.ReadInt64();
+            group.Clear();
+            for (long i = 0; i < count; i++)
+            {
+                string nickFromFile = reader.ReadString();
+                string passwordFromFile = reader.ReadString();
+                group.Add(new Classes.Person() { nickname = nickFromFile, password = passwordFromFile });
+            }
+            file.Close();
+        }
+        catch (System.IO.FileNotFoundException)
+        {
+            return;
+        }
+    }
+
+
+}
