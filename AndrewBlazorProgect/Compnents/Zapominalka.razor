@@ -44,28 +44,54 @@
     string[] n = new string[] { "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown", "brown" };
     int[] c = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     int randd = 0;
+    int i = 5;
     string str = "";
     Random rnd = new Random();
+
     void cveta()
     {
-
-
-            randd = rnd.Next(9);
-            if (c[randd] != 1)
-            {
-                n[randd] = "aqua";
-                c[randd]++;
-            }
-            else
-            {
-                cveta();
-                return;
-            }
-            System.Threading.Thread.Sleep(100);
+        randd = rnd.Next(9);
+        if (c[randd] != 1)
+        {
+            n[randd] = "aqua";
+            c[randd]++;
+            System.Threading.Thread.Sleep(200);
             n[randd] = "brown";
-       
-        
-
+            System.Threading.Thread.Sleep(200);
+        }
+        else
+        {
+            cveta();
+            return;
+        }
+        randd = rnd.Next(9);
+        if (c[randd] != 1)
+        {
+            n[randd] = "aqua";
+            c[randd]++;
+            System.Threading.Thread.Sleep(200);
+            n[randd] = "brown";
+            System.Threading.Thread.Sleep(200);
+        }
+        else
+        {
+            cveta();
+            return;
+        }
+        randd = rnd.Next(9);
+        if (c[randd] != 1)
+        {
+            n[randd] = "aqua";
+            c[randd]++;
+            System.Threading.Thread.Sleep(200);
+            n[randd] = "brown";
+            System.Threading.Thread.Sleep(200);
+        }
+        else
+        {
+            cveta();
+            return;
+        }
 
     }
     async Task Timer()
@@ -73,7 +99,5 @@
 
         await Task.Run(() => cveta());
 
-
     }
-}
 }
